@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Shake;
 use \App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;

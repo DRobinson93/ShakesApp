@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Shake;
+use App\ShakeIngredient;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateShake;
+use Illuminate\Support\Facades\View;
 
 class ShakeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $shakes = Shake::with('ingredients')->get();
+
+        return View::make('welcome')->with('shakes', $shakes);
+    }
+
+    public function show(Shake $shake)
+    {
+        return View::make('shake', array(['shake' => $shake]));
     }
 
     /**
@@ -22,31 +28,16 @@ class ShakeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CreateShake $request) : JsonResponse
     {
-        //
-    }
+        $newShake = Shake::create(['title' => $request['title']]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        //insert each ingredient, using shake.id
+        foreach($request['ingredients'] as $val) {
+            ShakeIngredient::create(['shake_id' => $newShake->id, 'val' => $val]);
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Shake  $shake
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Shake $shake)
-    {
-        //
+        return response()->json(['id' => $newShake->id]);
     }
 
     /**
@@ -72,14 +63,9 @@ class ShakeController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Shake  $shake
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Shake $shake)
+    public function destroy(Request $request)
     {
-        //
+        $shake = Shake::find($request['id']);
+        response()->json(['success' => $shake->delete()]);
     }
 }

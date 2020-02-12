@@ -11,10 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'ShakeController@index')->name('home');
+
+Route::prefix('shake')->group(function () {
+    Route::post('create', 'ShakeController@create')->name('shake.create');
+    Route::post('destroy', 'ShakeController@destroy')->name('shake.destroy');
+    Route::post('/shakes/{shake}', 'ShakeController@show');
+});

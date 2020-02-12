@@ -3,5 +3,5 @@
 @section('title', 'Page Title')
 
 @section('content')
-    <all-shakes shakes={{$shakes}}/>
+    <shake/>
 @endsection

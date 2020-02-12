@@ -18,14 +18,30 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('all-shakes', require('./components/presentational/AllShakes.vue').default);
+Vue.component('shake', require('./components/container/Shake.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+//https://www.npmjs.com/package/vue2-alertifyjs
+import 'alertifyjs/build/alertify.min.js'
+import 'alertifyjs/build/css/alertify.min.css'
+import 'alertifyjs/build/css/themes/default.min.css'
+import Alertifyjs from 'vue2-alertifyjs'
+
+const opts = {
+  notifier:{
+      delay:5,
+      position:'top-right',
+      closeButton: false
+  }
+};
+
+Vue.use(Alertifyjs,opts)
 
 const app = new Vue({
     el: '#app',
