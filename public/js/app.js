@@ -2094,7 +2094,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    'shakes': Object
+    'shakes': Array
   },
   components: {
     'shake': _container_Shake_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -38121,7 +38121,7 @@ var render = function() {
       [
         _c("action-list", { attrs: { data: this.shake.ingredients } }),
         _vm._v(" "),
-        _c("a", { attrs: { href: "/shakes/" + this.shake.id } }, [
+        _c("a", { attrs: { href: "/shake/" + this.shake.id } }, [
           this.displayMode
             ? _c(
                 "button",
@@ -38248,7 +38248,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "card-columns" },
-      _vm._l(this.shakes, function(shake) {
+      _vm._l(_vm.shakes, function(shake) {
         return _c("shake", {
           key: shake.id,
           attrs: { shake: shake, ratingSumTxt: "+1", displayMode: true }
@@ -54426,8 +54426,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /vagrant/shakes/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /vagrant/shakes/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vagrant/shakes/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vagrant/shakes/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

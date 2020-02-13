@@ -9,7 +9,7 @@
 <script>
     import shake from '../container/Shake.vue'
     export default {
-        props: {'shakes': Object},
+        props: {'shakes': Array},
         components: {
             'shake': shake
         }

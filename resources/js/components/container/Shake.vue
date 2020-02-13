@@ -7,7 +7,7 @@
 
         <div class="card-body">
             <action-list :data="this.shake.ingredients"></action-list>
-            <a :href="'/shakes/' + this.shake.id">
+            <a :href="'/shake/' + this.shake.id">
                 <button type="button" class="btn btn-lg btn-block btn-primary" v-if="this.displayMode">View</button>
             </a>
             <div class="row mt-2" v-if="!this.displayMode">

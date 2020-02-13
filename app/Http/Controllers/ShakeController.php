@@ -20,7 +20,7 @@ class ShakeController extends Controller
 
     public function show(Shake $shake)
     {
-        return View::make('shake', array(['shake' => $shake]));
+        return View::make('shake')->with('shake', $shake);
     }
 
     /**
