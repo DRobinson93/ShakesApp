@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('all-shakes', require('./components/presentational/AllShakes.vue').default);
 Vue.component('shake', require('./components/container/Shake.vue').default);
+Vue.component('create-shake', require('./components/container/CreateShake.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

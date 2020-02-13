@@ -11,16 +11,21 @@ use Illuminate\Support\Facades\View;
 
 class ShakeController extends Controller
 {
-    public function index()
+    public function index() 
     {
         $shakes = Shake::with('ingredients')->get();
 
         return View::make('welcome')->with('shakes', $shakes);
     }
 
-    public function show(Shake $shake)
+    public function show(Shake $shake) 
     {
         return View::make('shake')->with('shake', $shake);
+    }
+
+    public function showForm() 
+    {
+        return View::make('shakeForm');
     }
 
     /**

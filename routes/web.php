@@ -23,4 +23,5 @@ Route::prefix('shake')->group(function () {
     Route::post('create', 'ShakeController@create')->name('shake.create');
     Route::post('destroy', 'ShakeController@destroy')->name('shake.destroy');
     Route::get('{shake}', 'ShakeController@show');
+    Route::get('create', 'ShakeController@showForm');
 });
