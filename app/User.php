@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function reactions(){
+        return $this->hasMany(ShakeReaction::class);
+    }
+
+    function shakes(){
+        return $this->hasMany(Shake::class);
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <input v-model="form.title" placeholder="title.." class="form-control">
         <h5 class="mt-1">Ingredients:</h5>
         <action-list :data="form.ingredients" :btns="listBtns" @deleted="handleIngredientDelete"></action-list>
@@ -9,7 +9,7 @@
                 <div class="input-group-text" v-on:click="add">Add</div>
             </div>
         </div>
-        <button type="button" class="btn btn-block btn-secondary mt-1" @click="formSubmit">Submit</button>
+        <button type="button" class="btn btn-block btn-secondary mt-1" v-show="showSubmit" @click="formSubmit">Submit</button>
     </div>
 </template>
 
@@ -22,12 +22,21 @@
                 ingredients: []
             },
             input: '',
-            listBtns : ['delete']
+            listBtns : ['delete'],
+            showSubmit: false
         }
     }
     export default {
         data() {
             return initialState();
+        },
+        watch: {
+            form: {
+                handler(){
+                    this.showSubmit = this.validTitle(false) && this.validIngs(false);
+                },
+                deep: true
+            }
         },
         components:{'action-list': ActionList},
         methods: {
@@ -44,16 +53,18 @@
             genErMsg(){
                 this.$notify('An error occurred on save');
             },
-            validInput(){
+            validInput(notify = true){
                 if(this.input === ''){
-                    this.$notify('Ingredients can not be blank');
+                    if(notify)
+                        this.$notify('Ingredients can not be blank');
                     return false;
                 }
                 return true;
             },
-            validIngs(){
+            validIngs(notify = true){
                 if(this.form.ingredients.length <= 1){
-                    this.$notify('Please enter more then one ingredient');
+                    if(notify)
+                        this.$notify('Please enter more then one ingredient');
                     return false;
                 }
                 return true;
@@ -69,7 +80,7 @@
                 if(!this.validInput()) return;
                 this.form.ingredients.push({val:this.input, id:this.form.ingredients.length});
                 this.input = '';
-                this.$notify.success('Ingredient Added');
+                this.$notify('Ingredient Added');
             },
             resetWindow: function (){
                 Object.assign(this.$data, initialState());
@@ -79,12 +90,12 @@
                 if(!this.validTitle()) return;
                 if(!this.validIngs()) return;
                 let _this = this;
-                axios.post('shake/create', {
+                axios.post('/shake', {
                     ...this.form
                 })
                 .then(function (response) {
                     if(response.data.success){
-                        _this.$notify.success('Successfully saved');
+                        _this.$notify('Successfully saved');
                         _this.resetWindow();
                     }
                     else{

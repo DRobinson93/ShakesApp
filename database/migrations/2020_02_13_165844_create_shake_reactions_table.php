@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShakesTable extends Migration
+class CreateShakeReactionsTable extends Migration
 {
-    const TBL_NAME = 'shakes';
-    const FOR_KEY = 'user_id';
-
+    const TBL_NAME = 'shake_reactions';
+    const FOR_KEY = 'shake_id';
+    const FOR_KEY2 = 'user_id';
     /**
      * Run the migrations.
      *
@@ -18,9 +18,11 @@ class CreateShakesTable extends Migration
     {
         Schema::create($this::TBL_NAME, function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
             $table->unsignedBigInteger($this::FOR_KEY)->unsigned()->index();
-            $table->foreign($this::FOR_KEY)->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger($this::FOR_KEY2)->unsigned()->index();
+            $table->string('val');
+            $table->foreign($this::FOR_KEY)->references('id')->on('shakes')->onDelete('cascade');
+            $table->foreign($this::FOR_KEY2)->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

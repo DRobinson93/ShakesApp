@@ -3,5 +3,9 @@
 @section('title', 'Page Title')
 
 @section('content')
-    <shake :shake="{{ $shake }}"/>
+	<div class="container">
+	    <shake :shake="{{ $shake }}"/>
+	</div>
+}
+}
 @endsection

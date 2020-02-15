@@ -12,10 +12,11 @@
             </a>
             <div class="row mt-2" v-if="!this.displayMode">
                 <div class="col-3">
-                    <button type="button" class="btn btn-danger btn-block">-1</button>
+                    <button type="button" class="btn btn-danger btn-block" @click="this.deleteShake">Delete</button>
                 </div>
                 <div class="col-6"></div>
                 <div class="col-3">
+                    <button type="button" class="btn btn-danger btn-block">-1</button>
                     <button type="button" class="btn btn-success btn-block">+1</button>
                 </div>
             </div>
@@ -27,6 +28,17 @@
     import actionList from '../presentational/ActionList'
     export default {
         props: {'shake': Object, 'ratingSumTxt' : String, 'displayMode' : Boolean},
-        components:{'action-list': actionList}
+        components:{'action-list': actionList}, 
+        methods:{
+            deleteShake: function () {
+                axios.delete('/shake/'+this.shake.id)
+                  .then(function (response) {
+                    window.location = '/';
+                  })
+                  .catch(function (error) {
+                    console.log(error)
+                  })
+            }
+        }
     }
 </script>

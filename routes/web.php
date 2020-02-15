@@ -18,10 +18,10 @@
 Auth::routes();
 
 Route::get('/', 'ShakeController@index')->name('home');
+Route::get('/home', 'ShakeController@index');
 
-Route::prefix('shake')->group(function () {
-    Route::post('create', 'ShakeController@create')->name('shake.create');
-    Route::post('destroy', 'ShakeController@destroy')->name('shake.destroy');
-    Route::get('{shake}', 'ShakeController@show');
-    Route::get('create', 'ShakeController@showForm');
-});
+Route::post('shake/{shake}/reaction/store', 'ShakeReactionController@store')
+    ->name('shake.reaction.store')
+    ->middleware('auth');
+
+Route::resource('shake', 'ShakeController');

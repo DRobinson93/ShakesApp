@@ -32,8 +32,8 @@ class CreateShake extends FormRequest
     public function rules()
     {
         $rules = [ 'title' => 'present|required|string', ];
-        foreach($this->request->get('ingredients') as $key => $val) {
-            $rules['ingredients.'.$key] = 'present|required|string';
+        foreach($this->request->get('ingredients') as $key => $data) {
+            $rules['ingredients.'.$key.'.val'] = 'required|string';
         }
         return $rules;
     }

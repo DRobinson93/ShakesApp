@@ -7,42 +7,45 @@ use App\ShakeIngredient;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateShake;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class ShakeController extends Controller
 {
-    public function index() 
+    public function __construct()
+    {
+        $this->middleware("auth")->except(["index","show"]);
+    }
+    public function index()
     {
         $shakes = Shake::with('ingredients')->get();
-
         return View::make('welcome')->with('shakes', $shakes);
     }
 
-    public function show(Shake $shake) 
+    public function show(Shake $shake)
     {
-        return View::make('shake')->with('shake', $shake);
+        $shakeWIngs = Shake::where('id', $shake->id)->with('ingredients')->first();
+        return view('shake', ['shake' => $shakeWIngs]);
     }
 
-    public function showForm() 
+    public function store(CreateShake $request) : JsonResponse
     {
-        return View::make('shakeForm');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(CreateShake $request) : JsonResponse
-    {
-        $newShake = Shake::create(['title' => $request['title']]);
-
+        $data= [];
+        $data['title'] = $request->input('title');
+        $data['user_id'] = Auth::id();
+        $newShake = Shake::create($data);
         //insert each ingredient, using shake.id
-        foreach($request['ingredients'] as $val) {
-            ShakeIngredient::create(['shake_id' => $newShake->id, 'val' => $val]);
+        foreach($request->input('ingredients') as $data) {
+            //$newShake->ingredient() //todo try like this
+            ShakeIngredient::create(['shake_id' => $newShake->id, 'val' => $data['val']]);
         }
 
         return response()->json(['id' => $newShake->id]);
+    }
+
+    public function create()
+    {
+        return view("shakeForm");
     }
 
     /**
@@ -68,9 +71,8 @@ class ShakeController extends Controller
         //
     }
 
-    public function destroy(Request $request)
+    public function destroy(Shake $shake)
     {
-        $shake = Shake::find($request['id']);
         response()->json(['success' => $shake->delete()]);
     }
 }

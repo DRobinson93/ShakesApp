@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\ShakeIngredient;
 
 class Shake extends Model
 {
@@ -13,12 +12,22 @@ class Shake extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'title', 'user_id'
     ];
 
     public function ingredients()
     {
         return $this->hasMany(ShakeIngredient::class);
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany(ShakeIngredient::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

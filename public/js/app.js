@@ -2013,13 +2013,22 @@ function initialState() {
       ingredients: []
     },
     input: '',
-    listBtns: ['delete']
+    listBtns: ['delete'],
+    showSubmit: false
   };
 }
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return initialState();
+  },
+  watch: {
+    form: {
+      handler: function handler() {
+        this.showSubmit = this.validTitle(false) && this.validIngs(false);
+      },
+      deep: true
+    }
   },
   components: {
     'action-list': _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -2040,16 +2049,20 @@ function initialState() {
       this.$notify('An error occurred on save');
     },
     validInput: function validInput() {
+      var notify = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
       if (this.input === '') {
-        this.$notify('Ingredients can not be blank');
+        if (notify) this.$notify('Ingredients can not be blank');
         return false;
       }
 
       return true;
     },
     validIngs: function validIngs() {
+      var notify = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
       if (this.form.ingredients.length <= 1) {
-        this.$notify('Please enter more then one ingredient');
+        if (notify) this.$notify('Please enter more then one ingredient');
         return false;
       }
 
@@ -2070,7 +2083,7 @@ function initialState() {
         id: this.form.ingredients.length
       });
       this.input = '';
-      this.$notify.success('Ingredient Added');
+      this.$notify('Ingredient Added');
     },
     resetWindow: function resetWindow() {
       Object.assign(this.$data, initialState());
@@ -2082,9 +2095,9 @@ function initialState() {
 
       var _this = this;
 
-      axios.post('shake/create', _objectSpread({}, this.form)).then(function (response) {
+      axios.post('/shake', _objectSpread({}, this.form)).then(function (response) {
         if (response.data.success) {
-          _this.$notify.success('Successfully saved');
+          _this.$notify('Successfully saved');
 
           _this.resetWindow();
         } else {
@@ -2134,6 +2147,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2143,6 +2157,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     'action-list': _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    deleteShake: function deleteShake() {
+      axios["delete"]('/shake/' + this.shake.id).then(function (response) {
+        window.location = '/';
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -2209,6 +2232,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _container_Shake_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../container/Shake.vue */ "./resources/js/components/container/Shake.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -38235,6 +38263,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "container" },
     [
       _c("input", {
         directives: [
@@ -38300,6 +38329,14 @@ var render = function() {
       _c(
         "button",
         {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showSubmit,
+              expression: "showSubmit"
+            }
+          ],
           staticClass: "btn btn-block btn-secondary mt-1",
           attrs: { type: "button" },
           on: { click: _vm.formSubmit }
@@ -38361,11 +38398,21 @@ var render = function() {
         _vm._v(" "),
         !this.displayMode
           ? _c("div", { staticClass: "row mt-2" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "col-3" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-block",
+                    attrs: { type: "button" },
+                    on: { click: this.deleteShake }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-6" }),
               _vm._v(" "),
-              _vm._m(1)
+              _vm._m(0)
             ])
           : _vm._e()
       ],
@@ -38383,14 +38430,8 @@ var staticRenderFns = [
         "button",
         { staticClass: "btn btn-danger btn-block", attrs: { type: "button" } },
         [_vm._v("-1")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-3" }, [
+      ),
+      _vm._v(" "),
       _c(
         "button",
         { staticClass: "btn btn-success btn-block", attrs: { type: "button" } },
@@ -38480,10 +38521,30 @@ var render = function() {
         })
       }),
       1
-    )
+    ),
+    _vm._v(" "),
+    !_vm.shakes.length ? _c("div", [_vm._m(0)]) : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "alert alert-secondary", attrs: { role: "alert" } },
+      [
+        _vm._v("\n            Sorry, no shakes exist "),
+        _c(
+          "a",
+          { staticClass: "alert-link", attrs: { href: "/shake/create" } },
+          [_vm._v("click here to create one")]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
