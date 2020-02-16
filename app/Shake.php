@@ -22,7 +22,7 @@ class Shake extends Model
 
     public function reactions()
     {
-        return $this->hasMany(ShakeIngredient::class);
+        return $this->hasMany(ShakeReaction::class);
     }
 
     public function user()

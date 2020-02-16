@@ -2246,6 +2246,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -38522,7 +38523,7 @@ var render = function() {
           attrs: {
             authenticated: _vm.authenticated,
             shake: shake,
-            ratingSumTxt: "+1",
+            ratingSumTxt: shake.ratingSumTxt,
             displayMode: true
           }
         })

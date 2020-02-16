@@ -18,7 +18,11 @@ class ShakeController extends Controller
     }
     public function index()
     {
-        $shakes = Shake::with('ingredients')->get();
+        $shakes = Shake::with(['ingredients'])->get();
+        foreach($shakes as $index => $shake){
+            $sum = $shake->reactions()->sum('val');
+            $shakes[$index]['ratingSumTxt'] = ($sum >=0 ? '+' : ''). $sum;
+        }
         return View::make('welcome')->with('shakes', $shakes);
     }
 

@@ -20,7 +20,7 @@ class CreateShakeReactionsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger($this::FOR_KEY)->unsigned();
             $table->unsignedBigInteger($this::FOR_KEY2)->unsigned();
-            $table->string('val');
+            $table->integer('val');
             $table->foreign($this::FOR_KEY)->references('id')->on('shakes')->onDelete('cascade');
             $table->foreign($this::FOR_KEY2)->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
