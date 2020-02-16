@@ -11,3 +11,6 @@ todo:create shows error on cor resp,
 	:write validation error logic on front end 
 	:setup up  reaction code 
 	:setup permissions
+	:add reactions to tests for relations and make sure reactions exists in return 
+
+git commit -m "set up reactions seeder, create test user and improve other seeders"

@@ -11,6 +11,7 @@ class ShakeSeeder extends Seeder
      */
     public function run()
     {
+        //create 10 random shakes 
         factory(App\Shake::class, 10)->create()->each(function ($shake) {
             $shake->ingredients()->save(factory(App\ShakeIngredient::class)->make());
         });

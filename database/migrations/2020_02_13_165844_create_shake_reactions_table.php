@@ -18,8 +18,8 @@ class CreateShakeReactionsTable extends Migration
     {
         Schema::create($this::TBL_NAME, function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger($this::FOR_KEY)->unsigned()->index();
-            $table->unsignedBigInteger($this::FOR_KEY2)->unsigned()->index();
+            $table->unsignedBigInteger($this::FOR_KEY)->unsigned();
+            $table->unsignedBigInteger($this::FOR_KEY2)->unsigned();
             $table->string('val');
             $table->foreign($this::FOR_KEY)->references('id')->on('shakes')->onDelete('cascade');
             $table->foreign($this::FOR_KEY2)->references('id')->on('users')->onDelete('cascade');
