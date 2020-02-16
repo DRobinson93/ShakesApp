@@ -2153,7 +2153,8 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     'shake': Object,
     'ratingSumTxt': String,
-    'displayMode': Boolean
+    'displayMode': Boolean,
+    authenticated: Boolean
   },
   components: {
     'action-list': _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -2248,7 +2249,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    'shakes': Array
+    'shakes': Array,
+    'authenticated': Boolean
   },
   components: {
     'shake': _container_Shake_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -38371,9 +38373,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card box-shadow" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n        " + _vm._s(this.shake.title) + "\n        "),
+      _vm._v("\n        " + _vm._s(_vm.shake.title) + "\n        "),
       _c("span", { staticClass: "badge badge-secondary float-right" }, [
-        _vm._v(_vm._s(this.ratingSumTxt))
+        _vm._v(_vm._s(_vm.ratingSumTxt))
       ])
     ]),
     _vm._v(" "),
@@ -38381,10 +38383,10 @@ var render = function() {
       "div",
       { staticClass: "card-body" },
       [
-        _c("action-list", { attrs: { data: this.shake.ingredients } }),
+        _c("action-list", { attrs: { data: _vm.shake.ingredients } }),
         _vm._v(" "),
-        _c("a", { attrs: { href: "/shake/" + this.shake.id } }, [
-          this.displayMode
+        _c("a", { attrs: { href: "/shake/" + _vm.shake.id } }, [
+          _vm.displayMode
             ? _c(
                 "button",
                 {
@@ -38396,7 +38398,7 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        !this.displayMode
+        !_vm.displayMode && _vm.authenticated
           ? _c("div", { staticClass: "row mt-2" }, [
               _c("div", { staticClass: "col-3" }, [
                 _c(
@@ -38404,7 +38406,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-danger btn-block",
                     attrs: { type: "button" },
-                    on: { click: this.deleteShake }
+                    on: { click: _vm.deleteShake }
                   },
                   [_vm._v("Delete")]
                 )
@@ -38517,7 +38519,12 @@ var render = function() {
       _vm._l(_vm.shakes, function(shake) {
         return _c("shake", {
           key: shake.id,
-          attrs: { shake: shake, ratingSumTxt: "+1", displayMode: true }
+          attrs: {
+            authenticated: _vm.authenticated,
+            shake: shake,
+            ratingSumTxt: "+1",
+            displayMode: true
+          }
         })
       }),
       1

@@ -10,3 +10,4 @@ todo:create shows error on cor resp,
 	:write more validation
 	:write validation error logic on front end 
 	:setup up  reaction code 
+	:setup permissions

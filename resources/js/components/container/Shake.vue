@@ -1,18 +1,18 @@
 <template>
     <div class="card box-shadow">
         <div class="card-header">
-            {{this.shake.title}}
-            <span class="badge badge-secondary float-right">{{this.ratingSumTxt}}</span>
+            {{shake.title}}
+            <span class="badge badge-secondary float-right">{{ratingSumTxt}}</span>
         </div>
 
         <div class="card-body">
-            <action-list :data="this.shake.ingredients"></action-list>
-            <a :href="'/shake/' + this.shake.id">
-                <button type="button" class="btn btn-lg btn-block btn-primary" v-if="this.displayMode">View</button>
+            <action-list :data="shake.ingredients"></action-list>
+            <a :href="'/shake/' + shake.id">
+                <button type="button" class="btn btn-lg btn-block btn-primary" v-if="displayMode">View</button>
             </a>
-            <div class="row mt-2" v-if="!this.displayMode">
+            <div class="row mt-2" v-if="!displayMode && authenticated">
                 <div class="col-3">
-                    <button type="button" class="btn btn-danger btn-block" @click="this.deleteShake">Delete</button>
+                    <button type="button" class="btn btn-danger btn-block" @click="deleteShake">Delete</button>
                 </div>
                 <div class="col-6"></div>
                 <div class="col-3">
@@ -27,7 +27,7 @@
 <script>
     import actionList from '../presentational/ActionList'
     export default {
-        props: {'shake': Object, 'ratingSumTxt' : String, 'displayMode' : Boolean},
+        props: {'shake': Object, 'ratingSumTxt' : String, 'displayMode' : Boolean, authenticated: Boolean},
         components:{'action-list': actionList}, 
         methods:{
             deleteShake: function () {

@@ -4,8 +4,6 @@
 
 @section('content')
 	<div class="container">
-	    <shake :shake="{{ $shake }}"/>
+	    <shake :authenticated="{{ json_encode(Auth::check()) }}" :shake="{{ $shake }}"/>
 	</div>
-}
-}
 @endsection
