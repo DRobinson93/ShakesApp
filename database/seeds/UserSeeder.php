@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class UserSeeder extends Seeder
         //create test user
         factory(App\User::class)->create([
             'email' => 'test@gmail.com',
-            'password' => 'dev_pass'
+            'password' => Hash::make('dev_pass')
         ]);
     }
 }

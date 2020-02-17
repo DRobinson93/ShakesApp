@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShakeReaction extends Model
 {
+    const DEFAULT_VAL=0;
     protected $fillable = [
         'user_id', 'val', 'shake_id'
     ];

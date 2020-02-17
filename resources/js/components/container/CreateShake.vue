@@ -1,15 +1,25 @@
 <template>
     <div class="container">
-        <input v-model="form.title" placeholder="title.." class="form-control">
-        <h5 class="mt-1">Ingredients:</h5>
-        <action-list :data="form.ingredients" :btns="listBtns" @deleted="handleIngredientDelete"></action-list>
-        <div class="input-group">
-            <input v-model="input" placeholder="add ingredient" class="form-control">
-            <div class="input-group-prepend">
-                <div class="input-group-text" v-on:click="add">Add</div>
+        <div v-if="!showView">
+            <input v-model="form.title" placeholder="title.." class="form-control">
+            <h5 class="mt-1">Ingredients:</h5>
+            <action-list :data="form.ingredients" :btns="listBtns" @deleted="handleIngredientDelete"></action-list>
+            <div class="input-group">
+                <input v-model="input" placeholder="add ingredient" class="form-control">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" v-on:click="add">Add</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-block btn-secondary mt-1" v-show="showSubmit" @click="formSubmit">Submit</button>
+        </div>
+        <div v-show="showView">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Congrats!</h4>
+                <p>Your shake "{{form.title}}" has been created</p>
+                <hr>
+                <a :href="'/shake/'+id">Click to view</a>
             </div>
         </div>
-        <button type="button" class="btn btn-block btn-secondary mt-1" v-show="showSubmit" @click="formSubmit">Submit</button>
     </div>
 </template>
 
@@ -23,7 +33,9 @@
             },
             input: '',
             listBtns : ['delete'],
-            showSubmit: false
+            showSubmit: false,
+            showView: false,
+            id:null
         }
     }
     export default {
@@ -31,6 +43,9 @@
             return initialState();
         },
         watch: {
+            id: function(){
+                this.showView = this.id !== null;
+            },
             form: {
                 handler(){
                     this.showSubmit = this.validTitle(false) && this.validIngs(false);
@@ -94,9 +109,9 @@
                     ...this.form
                 })
                 .then(function (response) {
-                    if(response.data.success){
+                    if(response.data.id){
+                        _this.id = response.data.id;
                         _this.$notify('Successfully saved');
-                        _this.resetWindow();
                     }
                     else{
                         _this.genErMsg();

@@ -2004,6 +2004,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 function initialState() {
@@ -2014,7 +2024,9 @@ function initialState() {
     },
     input: '',
     listBtns: ['delete'],
-    showSubmit: false
+    showSubmit: false,
+    showView: false,
+    id: null
   };
 }
 
@@ -2023,6 +2035,9 @@ function initialState() {
     return initialState();
   },
   watch: {
+    id: function id() {
+      this.showView = this.id !== null;
+    },
     form: {
       handler: function handler() {
         this.showSubmit = this.validTitle(false) && this.validIngs(false);
@@ -2096,10 +2111,10 @@ function initialState() {
       var _this = this;
 
       axios.post('/shake', _objectSpread({}, this.form)).then(function (response) {
-        if (response.data.success) {
-          _this.$notify('Successfully saved');
+        if (response.data.id) {
+          _this.id = response.data.id;
 
-          _this.resetWindow();
+          _this.$notify('Successfully saved');
         } else {
           _this.genErMsg();
         }
@@ -2122,6 +2137,9 @@ function initialState() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../presentational/ActionList */ "./resources/js/components/presentational/ActionList.vue");
+/* harmony import */ var _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../presentational/BtnGrpRadioWVals */ "./resources/js/components/presentational/BtnGrpRadioWVals.vue");
+//
+//
 //
 //
 //
@@ -2149,24 +2167,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      reactionComp: {
+        valAndDisplay: {
+          '-1': '-',
+          '1': '+'
+        },
+        "default": 0,
+        userReaction: ''
+      },
+      rankingTxt: ''
+    };
+  },
+  mounted: function mounted() {
+    //if user does not pass in the sum ranking txt then get it
+    //this is so on the main page where 1-> many show, this will not be loaded via ajax,
+    //on a single shake page this will be loaded via ajax and then altered inside of this component
+    if (this.reactionsSumTxt) {
+      this.rankingTxt = this.reactionsSumTxt;
+    } else {
+      //populate text top right if not passed in
+      this.populateReactionSumTxt();
+    } //get user reaction if this is not display mode
+
+
+    if (!this.displayMode) {
+      var _this = this;
+
+      axios.get('/shake/' + this.shake.id + '/reaction').then(function (response) {
+        _this.reactionComp.userReaction = response.data.toString();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
   props: {
     'shake': Object,
-    'ingredients': Object,
-    'ratingSumTxt': String,
+    'ingredients': Array,
+    'reactionsSumTxt': String,
     'displayMode': Boolean,
-    authenticated: Boolean
+    authenticated_id: Number
   },
   components: {
+    ReactionBtns: _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_1__["default"],
     'action-list': _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
+    populateReactionSumTxt: function populateReactionSumTxt() {
+      var _this = this;
+
+      axios.get('/shake/' + this.shake.id + '/reaction/sumTxt').then(function (response) {
+        _this.rankingTxt = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     deleteShake: function deleteShake() {
       axios["delete"]('/shake/' + this.shake.id).then(function (response) {
         window.location = '/';
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    handleReactionChange: function handleReactionChange(strNewVal) {
+      var _this = this;
+
+      var intReaction = parseInt(strNewVal);
+      axios.post('/shake/' + this.shake.id + '/reaction/store', {
+        val: intReaction
+      }).then(function (response) {
+        _this.reactionComp.userReaction = strNewVal;
+
+        _this.populateReactionSumTxt();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  computed: {
+    // a computed getter
+    showDelete: function showDelete() {
+      return this.authenticated_id === this.shake.user_id;
     }
   }
 });
@@ -2252,10 +2336,63 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'shakes': Array,
-    'authenticated': Boolean
+    'authenticatedId': Number
   },
   components: {
     'shake': _container_Shake_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    'valAndDisplay': Object,
+    'default': String,
+    val: {
+      type: String,
+      "default": null
+    }
+  },
+  data: function data() {
+    return {
+      defaultClasses: 'btn btn-outline-secondary',
+      activeClasses: 'btn btn-secondary'
+    };
+  },
+  methods: {
+    getClass: function getClass(btnVal) {
+      return this.val === btnVal ? this.activeClasses : this.defaultClasses;
+    },
+    handleClick: function handleClick(btnVal) {
+      if (btnVal === this.val) {
+        btnVal = this["default"];
+      } //emitting the change will change the value passed in and update the dom
+
+
+      this.$emit('valChange', btnVal);
+    }
   }
 });
 
@@ -38265,91 +38402,129 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("input", {
+  return _c("div", { staticClass: "container" }, [
+    !_vm.showView
+      ? _c(
+          "div",
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.title,
+                  expression: "form.title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { placeholder: "title.." },
+              domProps: { value: _vm.form.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "title", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("h5", { staticClass: "mt-1" }, [_vm._v("Ingredients:")]),
+            _vm._v(" "),
+            _c("action-list", {
+              attrs: { data: _vm.form.ingredients, btns: _vm.listBtns },
+              on: { deleted: _vm.handleIngredientDelete }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.input,
+                    expression: "input"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { placeholder: "add ingredient" },
+                domProps: { value: _vm.input },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.input = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group-prepend" }, [
+                _c(
+                  "div",
+                  { staticClass: "input-group-text", on: { click: _vm.add } },
+                  [_vm._v("Add")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.showSubmit,
+                    expression: "showSubmit"
+                  }
+                ],
+                staticClass: "btn btn-block btn-secondary mt-1",
+                attrs: { type: "button" },
+                on: { click: _vm.formSubmit }
+              },
+              [_vm._v("Submit")]
+            )
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
         directives: [
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.title,
-            expression: "form.title"
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showView,
+            expression: "showView"
           }
-        ],
-        staticClass: "form-control",
-        attrs: { placeholder: "title.." },
-        domProps: { value: _vm.form.title },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "title", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("h5", { staticClass: "mt-1" }, [_vm._v("Ingredients:")]),
-      _vm._v(" "),
-      _c("action-list", {
-        attrs: { data: _vm.form.ingredients, btns: _vm.listBtns },
-        on: { deleted: _vm.handleIngredientDelete }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.input,
-              expression: "input"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { placeholder: "add ingredient" },
-          domProps: { value: _vm.input },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.input = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-prepend" }, [
-          _c(
-            "div",
-            { staticClass: "input-group-text", on: { click: _vm.add } },
-            [_vm._v("Add")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showSubmit,
-              expression: "showSubmit"
-            }
-          ],
-          staticClass: "btn btn-block btn-secondary mt-1",
-          attrs: { type: "button" },
-          on: { click: _vm.formSubmit }
-        },
-        [_vm._v("Submit")]
-      )
-    ],
-    1
-  )
+        ]
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "alert alert-success", attrs: { role: "alert" } },
+          [
+            _c("h4", { staticClass: "alert-heading" }, [_vm._v("Congrats!")]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                'Your shake "' + _vm._s(_vm.form.title) + '" has been created'
+              )
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "/shake/" + _vm.id } }, [
+              _vm._v("Click to view")
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38377,7 +38552,7 @@ var render = function() {
     _c("div", { staticClass: "card-header" }, [
       _vm._v("\n        " + _vm._s(_vm.shake.title) + "\n        "),
       _c("span", { staticClass: "badge badge-secondary float-right" }, [
-        _vm._v(_vm._s(_vm.ratingSumTxt))
+        _vm._v(_vm._s(_vm.rankingTxt))
       ])
     ]),
     _vm._v(" "),
@@ -38400,23 +38575,39 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        !_vm.displayMode && _vm.authenticated
+        !_vm.displayMode && _vm.authenticated_id
           ? _c("div", { staticClass: "row mt-2" }, [
               _c("div", { staticClass: "col-3" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-block",
-                    attrs: { type: "button" },
-                    on: { click: _vm.deleteShake }
-                  },
-                  [_vm._v("Delete")]
-                )
+                _vm.showDelete
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger btn-block",
+                        attrs: { type: "button" },
+                        on: { click: _vm.deleteShake }
+                      },
+                      [_vm._v("Delete")]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-6" }),
               _vm._v(" "),
-              _vm._m(0)
+              _c(
+                "div",
+                { staticClass: "col-3" },
+                [
+                  _c("reaction-btns", {
+                    attrs: {
+                      valAndDisplay: _vm.reactionComp.valAndDisplay,
+                      default: _vm.reactionComp.default.toString(),
+                      val: _vm.reactionComp.userReaction
+                    },
+                    on: { valChange: _vm.handleReactionChange }
+                  })
+                ],
+                1
+              )
             ])
           : _vm._e()
       ],
@@ -38424,26 +38615,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-3" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-danger btn-block", attrs: { type: "button" } },
-        [_vm._v("-1")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-success btn-block", attrs: { type: "button" } },
-        [_vm._v("+1")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38522,10 +38694,10 @@ var render = function() {
         return _c("shake", {
           key: shake.id,
           attrs: {
-            authenticated: _vm.authenticated,
+            authenticatedId: _vm.authenticatedId,
             ingredients: shake.ingredients,
             shake: shake,
-            ratingSumTxt: shake.ratingSumTxt,
+            reactionsSumTxt: shake.reactionsSumTxt,
             displayMode: true
           }
         })
@@ -38555,6 +38727,52 @@ var staticRenderFns = [
     )
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "btn-group float-right",
+      attrs: { role: "group", "aria-label": "Basic example" }
+    },
+    _vm._l(_vm.valAndDisplay, function(disp, btnVal) {
+      return _c(
+        "button",
+        {
+          class: _vm.getClass(btnVal),
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.handleClick(btnVal)
+            }
+          }
+        },
+        [_vm._v(_vm._s(disp) + "\n    ")]
+      )
+    }),
+    0
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54769,6 +54987,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllShakes_vue_vue_type_template_id_f70a58e2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllShakes_vue_vue_type_template_id_f70a58e2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/presentational/BtnGrpRadioWVals.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/presentational/BtnGrpRadioWVals.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BtnGrpRadioWVals_vue_vue_type_template_id_3de7d174___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174& */ "./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174&");
+/* harmony import */ var _BtnGrpRadioWVals_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BtnGrpRadioWVals.vue?vue&type=script&lang=js& */ "./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BtnGrpRadioWVals_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BtnGrpRadioWVals_vue_vue_type_template_id_3de7d174___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BtnGrpRadioWVals_vue_vue_type_template_id_3de7d174___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/presentational/BtnGrpRadioWVals.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnGrpRadioWVals_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./BtnGrpRadioWVals.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnGrpRadioWVals_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnGrpRadioWVals_vue_vue_type_template_id_3de7d174___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/BtnGrpRadioWVals.vue?vue&type=template&id=3de7d174&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnGrpRadioWVals_vue_vue_type_template_id_3de7d174___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BtnGrpRadioWVals_vue_vue_type_template_id_3de7d174___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

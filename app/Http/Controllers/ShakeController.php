@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Shake;
 use App\ShakeIngredient;
+use App\ShakeReaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateShake;
@@ -20,10 +21,29 @@ class ShakeController extends Controller
     {
         $shakes = Shake::with(['ingredients'])->get();
         foreach($shakes as $index => $shake){
-            $sum = $shake->reactions()->sum('val');
-            $shakes[$index]['ratingSumTxt'] = ($sum >=0 ? '+' : ''). $sum;
+            $shakes[$index]['reactionsSumTxt'] = $this->getReactionsSumTxt($shake);
         }
         return View::make('welcome')->with('shakes', $shakes);
+    }
+
+    public function reactionSumTxt(Shake $shake){
+        return response($this->getReactionsSumTxt($shake));
+    }
+
+    private function getReactionsSumTxt(Shake $shake){
+        $sum = $shake->reactions()->sum('val');
+        return strval( ($sum >=0 ? '+' : ''). $sum );
+    }
+
+    public function getUserReaction(Shake $shake){
+        $reaction = ShakeReaction::DEFAULT_VAL;
+        if(Auth::check()){
+            $result = $shake->reactions()->where(['user_id' => Auth::id()])->first();
+            if($result){
+                $reaction = $result->val;
+            }
+        }
+        return response($reaction);
     }
 
     public function show(Shake $shake)

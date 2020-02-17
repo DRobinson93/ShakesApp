@@ -11,22 +11,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ShakeReactionController extends Controller
 {
+    //reactions are only set and updated, removing a reaction sets it to 0
     public function store(ShakeReactionRequest $request, Shake $shake) : JsonResponse
     {
-        $shakeReaction = new ShakeReaction();
-        $shakeReaction->val = $request->input('val');
-        $shakeReaction->user_id = Auth::id();
-        $shakeReaction->shake_id = $shake->id;
-        $shakeReaction->save();
-        return response()->json(['id' => $shakeReaction->id]);
+        $shakeReaction = ShakeReaction::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'shake_id' => $shake->id
+            ], ['val' => $request->input('val')]
+        );
+        return response()->json(['success' => 1]);
     }
-
-    public function update(Request $request, ShakeReactionRequest $shakeReaction)
-    {
-        $shakeReaction->update($request->input());
-        return response(['success' => true]);
-    }
-
-    //destroy, get reaction sum should be on shake
-    //get should be on user
 }

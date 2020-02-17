@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="card-columns">
-            <shake :authenticated="authenticated" v-for="shake in shakes" :ingredients="shake.ingredients" :shake="shake" :key="shake.id"
-            :ratingSumTxt="shake.ratingSumTxt" :displayMode="true"></shake>
+            <shake :authenticatedId="authenticatedId" v-for="shake in shakes" :ingredients="shake.ingredients" :shake="shake" :key="shake.id"
+            :reactionsSumTxt="shake.reactionsSumTxt" :displayMode="true"></shake>
         </div>
         <div v-if="!shakes.length">
             <div class="alert alert-secondary" role="alert">
@@ -15,7 +15,7 @@
 <script>
     import shake from '../container/Shake.vue'
     export default {
-        props: {'shakes': Array, 'authenticated' : Boolean},
+        props: {'shakes': Array, 'authenticatedId' : Number},
         components: {
             'shake': shake
         }
