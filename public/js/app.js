@@ -2152,6 +2152,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'shake': Object,
+    'ingredients': Object,
     'ratingSumTxt': String,
     'displayMode': Boolean,
     authenticated: Boolean
@@ -38384,7 +38385,7 @@ var render = function() {
       "div",
       { staticClass: "card-body" },
       [
-        _c("action-list", { attrs: { data: _vm.shake.ingredients } }),
+        _c("action-list", { attrs: { data: _vm.ingredients } }),
         _vm._v(" "),
         _c("a", { attrs: { href: "/shake/" + _vm.shake.id } }, [
           _vm.displayMode
@@ -38522,6 +38523,7 @@ var render = function() {
           key: shake.id,
           attrs: {
             authenticated: _vm.authenticated,
+            ingredients: shake.ingredients,
             shake: shake,
             ratingSumTxt: shake.ratingSumTxt,
             displayMode: true
@@ -54790,8 +54792,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/shakes/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/shakes/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /vagrant/shakes/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /vagrant/shakes/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

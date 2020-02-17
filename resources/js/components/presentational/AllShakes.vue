@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="card-columns">
-            <shake :authenticated="authenticated" v-for="shake in shakes" :shake="shake" :key="shake.id" 
+            <shake :authenticated="authenticated" v-for="shake in shakes" :ingredients="shake.ingredients" :shake="shake" :key="shake.id"
             :ratingSumTxt="shake.ratingSumTxt" :displayMode="true"></shake>
         </div>
         <div v-if="!shakes.length">

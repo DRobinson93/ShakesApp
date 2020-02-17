@@ -6,7 +6,7 @@
         </div>
 
         <div class="card-body">
-            <action-list :data="shake.ingredients"></action-list>
+            <action-list :data="ingredients"></action-list>
             <a :href="'/shake/' + shake.id">
                 <button type="button" class="btn btn-lg btn-block btn-primary" v-if="displayMode">View</button>
             </a>
@@ -27,8 +27,8 @@
 <script>
     import actionList from '../presentational/ActionList'
     export default {
-        props: {'shake': Object, 'ratingSumTxt' : String, 'displayMode' : Boolean, authenticated: Boolean},
-        components:{'action-list': actionList}, 
+        props: {'shake': Object, 'ingredients' : Object, 'ratingSumTxt' : String, 'displayMode' : Boolean, authenticated: Boolean},
+        components:{'action-list': actionList},
         methods:{
             deleteShake: function () {
                 axios.delete('/shake/'+this.shake.id)

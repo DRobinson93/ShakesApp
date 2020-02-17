@@ -28,8 +28,7 @@ class ShakeController extends Controller
 
     public function show(Shake $shake)
     {
-        $shakeWIngs = Shake::where('id', $shake->id)->with('ingredients')->first();
-        return view('shake', ['shake' => $shakeWIngs]);
+        return view('shake', ['shake' => $shake]);
     }
 
     public function store(CreateShake $request) : JsonResponse
