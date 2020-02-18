@@ -8,11 +8,13 @@
         <div class="card-body">
             <action-list :data="ingredients"></action-list>
             <a :href="'/shake/' + shake.id">
-                <button type="button" class="btn btn-lg btn-block btn-primary" v-if="displayMode">View</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary" v-if="displayMode">
+                    View <i class="fa fa-eye"></i>
+                </button>
             </a>
             <div class="row mt-2" v-if="!displayMode && authenticated_id">
                 <div class="col-3">
-                    <button type="button" class="btn btn-danger btn-block" @click="deleteShake" v-if="showDelete">Delete</button>
+                    <confirm-btn icon="trash" type="danger" v-on:confirm="deleteShake" v-if="showDelete" />
                 </div>
                 <div class="col-6"></div>
                 <div class="col-3">
@@ -29,6 +31,7 @@
 <script>
     import actionList from '../presentational/ActionList'
     import ReactionBtns from "../presentational/BtnGrpRadioWVals";
+    import ConfirmBtn from "../presentational/ConfirmBtn";
     export default {
         data: function() {
             return {
@@ -70,7 +73,7 @@
         props: {'shake': Object, 'ingredients' : Array, 'reactionsSumTxt' : String,
             'displayMode' : Boolean, authenticated_id: Number,
         },
-        components:{ReactionBtns, 'action-list': actionList},
+        components:{ReactionBtns,ConfirmBtn, 'action-list': actionList},
         methods:{
             populateReactionSumTxt: function(){
                 let _this = this;

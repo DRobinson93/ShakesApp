@@ -1,9 +1,11 @@
 <template>
     <ul class="list-group">
-        <li v-for="d in data" class="list-group-item">
+        <li v-for="(d, index) in data" :class="getLiClass(index)">
             {{ d.val }}
             <div class="float-right">
-                <button class="btn btn-secondary btn-sm" v-if="btns.includes('delete')" @click="handleDel(d.id)">Delete</button>
+                <button class="btn btn-warning btn-sm" v-if="btns.includes('delete')" @click="handleDel(d.id)">
+                    <i class="fa fa-minus"></i>
+                </button>
             </div>
         </li>
     </ul>
@@ -21,6 +23,10 @@
             }
         },
         methods: {
+            getLiClass: function(index){
+                //every other give color
+                return 'list-group-item ' + (index%2===1?'list-group-item-info':'');
+            },
             handleDel: function(id){
                 if(this.canDelete()){
                     this.$emit('deleted', id)

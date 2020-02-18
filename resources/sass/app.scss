@@ -4,5 +4,14 @@
 // Variables
 @import 'variables';
 
+// custom form css
+@import 'float_labels';
+
+// custom font
+@import 'custom_font';
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+//font awesome.. icons
+@import "node_modules/font-awesome/scss/font-awesome.scss";

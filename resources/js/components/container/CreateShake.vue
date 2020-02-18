@@ -1,5 +1,8 @@
 <template>
-    <div class="container">
+    <form class="formRestricted">
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">Create a Shake</h1>
+        </div>
         <div v-if="!showView">
             <input v-model="form.title" placeholder="title.." class="form-control">
             <h5 class="mt-1">Ingredients:</h5>
@@ -7,10 +10,12 @@
             <div class="input-group">
                 <input v-model="input" placeholder="add ingredient" class="form-control">
                 <div class="input-group-prepend">
-                    <div class="input-group-text" v-on:click="add">Add</div>
+                    <div class="input-group-text" v-on:click="add">
+                        <i class="fa fa-plus"></i>
+                    </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-block btn-secondary mt-1" v-show="showSubmit" @click="formSubmit">Submit</button>
+            <button type="button" class="btn btn-block btn-secondary mt-1" @click="formSubmit">Submit</button>
         </div>
         <div v-show="showView">
             <div class="alert alert-success" role="alert">
@@ -20,7 +25,7 @@
                 <a :href="'/shake/'+id">Click to view</a>
             </div>
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -45,12 +50,6 @@
         watch: {
             id: function(){
                 this.showView = this.id !== null;
-            },
-            form: {
-                handler(){
-                    this.showSubmit = this.validTitle(false) && this.validIngs(false);
-                },
-                deep: true
             }
         },
         components:{'action-list': ActionList},
@@ -66,12 +65,12 @@
                 }
             },
             genErMsg(){
-                this.$notify('An error occurred on save');
+                this.$notify('An error occurred on save', 'error');
             },
             validInput(notify = true){
                 if(this.input === ''){
                     if(notify)
-                        this.$notify('Ingredients can not be blank');
+                        this.$notify('Ingredients can not be blank', 'error');
                     return false;
                 }
                 return true;
@@ -79,14 +78,14 @@
             validIngs(notify = true){
                 if(this.form.ingredients.length <= 1){
                     if(notify)
-                        this.$notify('Please enter more then one ingredient');
+                        this.$notify('Please enter more then one ingredient', 'error');
                     return false;
                 }
                 return true;
             },
             validTitle(){
                 if(this.form.title === ''){
-                    this.$notify('Title can not be blank');
+                    this.$notify('Title can not be blank', 'error');
                     return false;
                 }
                 return true;
@@ -95,7 +94,7 @@
                 if(!this.validInput()) return;
                 this.form.ingredients.push({val:this.input, id:this.form.ingredients.length});
                 this.input = '';
-                this.$notify('Ingredient Added');
+                this.$notify('Ingredient Added', 'success');
             },
             resetWindow: function (){
                 Object.assign(this.$data, initialState());
@@ -111,7 +110,7 @@
                 .then(function (response) {
                     if(response.data.id){
                         _this.id = response.data.id;
-                        _this.$notify('Successfully saved');
+                        _this.$notify('Successfully saved', 'success');
                     }
                     else{
                         _this.genErMsg();
