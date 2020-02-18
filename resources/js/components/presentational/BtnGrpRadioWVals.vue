@@ -1,9 +1,9 @@
 <template>
-    <div class="btn-group float-right" role="group" aria-label="Basic example">
+    <div class="btn-group" role="group" aria-label="Basic example">
         <button
             v-for="(disp, btnVal) in valAndDisplay"
             type="button"
-            :class="getClass(btnVal)"
+            :class="getClass(btnVal) + ' col-4'"
             @click="handleClick(btnVal)"
             >{{disp}}
         </button>

@@ -19,6 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('all-shakes', require('./components/presentational/AllShakes.vue').default);
+Vue.component('search-filters', require('./components/container/SearchFilters.vue').default);
 Vue.component('shake', require('./components/container/Shake.vue').default);
 Vue.component('create-shake', require('./components/container/CreateShake.vue').default);
 

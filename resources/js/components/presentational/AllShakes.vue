@@ -2,7 +2,7 @@
     <div class="container">
         <div class="card-columns">
             <shake v-for="shake in shakes" :ingredients="shake.ingredients" :shake="shake" :key="shake.id"
-            :reactionsSumTxt="shake.reactionsSumTxt" :displayMode="true"></shake>
+            :reactionsSumTxt="shake.reactionSumTxt" :displayMode="true"></shake>
         </div>
         <div v-if="!shakes.length">
             <div class="alert alert-secondary" role="alert">

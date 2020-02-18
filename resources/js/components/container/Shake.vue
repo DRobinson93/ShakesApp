@@ -18,7 +18,9 @@
                 </div>
                 <div class="col-6"></div>
                 <div class="col-3">
-                    <reaction-btns :valAndDisplay="reactionComp.valAndDisplay"
+                    <reaction-btns
+                                    class="float-right"
+                                    :valAndDisplay="reactionComp.valAndDisplay"
                                    :default="reactionComp.default.toString()"
                                    :val="reactionComp.userReaction"
                                    v-on:valChange="handleReactionChange"/>
