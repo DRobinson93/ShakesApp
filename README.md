@@ -9,7 +9,8 @@ todo:create shows error on cor resp,
 	:write validation error logic on front end 
 	:setup permissions
 	:add reactions to tests for relations and make sure reactions exists in return 
-	:add sort by rating, newest and such  to home pg 
+	:add sort by rating, newest and such  to home pg (use session)
     : reactions store return just needs success.. not id
     :write tests for /shake/{shake}/reaction/sumTxt
+    :redis
 git commit -a -m ""
