@@ -15,10 +15,13 @@ class UserSeeder extends Seeder
         //create 10 random users
         factory(App\User::class, 10)->create();
 
+    	$user = App\User::where(['email' => 'test@gmail.com'])->first();
         //create test user
-        factory(App\User::class)->create([
-            'email' => 'test@gmail.com',
-            'password' => Hash::make('dev_pass')
-        ]);
+        if($user === null){
+	        factory(App\User::class)->create([
+	            'email' => 'test@gmail.com',
+	            'password' => Hash::make('dev_pass')
+	        ]);
+	    }
     }
 }
