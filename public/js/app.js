@@ -2197,7 +2197,7 @@ __webpack_require__.r(__webpack_exports__);
     } //get user reaction if this is not display mode
 
 
-    if (!this.displayMode) {
+    if (!this.displayMode && this.authenticated_id > -1) {
       var _this = this;
 
       axios.get('/shake/' + this.shake.id + '/reaction').then(function (response) {
@@ -2212,7 +2212,11 @@ __webpack_require__.r(__webpack_exports__);
     'ingredients': Array,
     'reactionsSumTxt': String,
     'displayMode': Boolean,
-    authenticated_id: Number
+    authenticated_id: {
+      type: Number,
+      "default": -1
+    } //not needed in display mode
+
   },
   components: {
     ReactionBtns: _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2345,8 +2349,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    'shakes': Array,
-    'authenticatedId': Number
+    'shakes': Array
   },
   components: {
     'shake': _container_Shake_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -2423,39 +2426,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var defaultType = 'secondary';
+//
+//
+//
+var classStart = 'btn btn-outline-';
+var defaultClassEnd = 'secondary';
+var timeout;
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    'type': String,
+    'icon': String
+  },
   data: function data() {
     return {
-      clicked: false,
-      confirmClicked: false,
-      btnClasses: this.getExtraBtnClass(defaultType)
+      btnClass: classStart + defaultClassEnd,
+      clicked: false
     };
-  },
-  props: {
-    icon: String,
-    type: String
   },
   methods: {
     handleClick: function handleClick() {
+      var _this = this;
+
       if (this.clicked) {
         this.$emit('confirm');
+        clearTimeout(timeout);
       }
 
       this.clicked = true;
-      this.btnClasses = this.getExtraBtnClass(this.type);
-
-      var _this = this;
-
-      setTimeout(function () {
-        if (!_this.confirmClicked) {
-          _this.clicked = false;
-          _this.btnClasses = _this.getExtraBtnClass(defaultType);
-        }
-      }, 5000); //give user 5 seconds before this restarts 
+      this.btnClass = classStart + this.type;
+      timeout = setTimeout(function () {
+        _this.reset();
+      }, 5000); //wait 5 seconds before resetting
     },
-    getExtraBtnClass: function getExtraBtnClass(type) {
-      return 'btn-outline-' + type;
+    reset: function reset() {
+      this.btnClass = classStart + defaultClassEnd;
+      this.clicked = false;
     }
   }
 });
@@ -38647,7 +38652,7 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        !_vm.displayMode && _vm.authenticated_id
+        !_vm.displayMode && _vm.authenticated_id > -1
           ? _c("div", { staticClass: "row mt-2" }, [
               _c(
                 "div",
@@ -38766,7 +38771,6 @@ var render = function() {
         return _c("shake", {
           key: shake.id,
           attrs: {
-            authenticatedId: _vm.authenticatedId,
             ingredients: shake.ingredients,
             shake: shake,
             reactionsSumTxt: shake.reactionsSumTxt,
@@ -38868,7 +38872,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "button",
-    { class: "btn " + _vm.btnClasses, on: { click: _vm.handleClick } },
+    {
+      class: _vm.btnClass,
+      attrs: { type: "button" },
+      on: {
+        click: function($event) {
+          return _vm.handleClick()
+        }
+      }
+    },
     [_c("i", { class: "fa fa-" + _vm.icon })]
   )
 }
@@ -55165,15 +55177,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************************************!*\
   !*** ./resources/js/components/presentational/ConfirmBtn.vue ***!
   \***************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ConfirmBtn_vue_vue_type_template_id_1cb7e86b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConfirmBtn.vue?vue&type=template&id=1cb7e86b& */ "./resources/js/components/presentational/ConfirmBtn.vue?vue&type=template&id=1cb7e86b&");
 /* harmony import */ var _ConfirmBtn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfirmBtn.vue?vue&type=script&lang=js& */ "./resources/js/components/presentational/ConfirmBtn.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ConfirmBtn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ConfirmBtn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -55203,7 +55214,7 @@ component.options.__file = "resources/js/components/presentational/ConfirmBtn.vu
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/presentational/ConfirmBtn.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55249,8 +55260,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /vagrant/shakes/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /vagrant/shakes/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/dan/storage/learn/l/shakes_app/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/dan/storage/learn/l/shakes_app/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

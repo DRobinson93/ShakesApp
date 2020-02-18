@@ -4,7 +4,7 @@
 
 @section('content')
 	<div class="container">
-	    <shake :authenticated_id="{{ Auth::id() }}" :shake="{{ $shake }}"
+	    <shake :authenticated_id="{{ Auth::check()? Auth::id() : '-1' }}" :shake="{{ $shake }}"
                :ingredients="{{ $shake->ingredients }}"
         />
 	</div>

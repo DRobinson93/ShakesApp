@@ -12,7 +12,7 @@
                     View <i class="fa fa-eye"></i>
                 </button>
             </a>
-            <div class="row mt-2" v-if="!displayMode && authenticated_id">
+            <div class="row mt-2" v-if="!displayMode && authenticated_id > -1">
                 <div class="col-3">
                     <confirm-btn icon="trash" type="danger" v-on:confirm="deleteShake" v-if="showDelete" />
                 </div>
@@ -59,7 +59,7 @@
             }
 
             //get user reaction if this is not display mode
-            if(!this.displayMode){
+            if(!this.displayMode && this.authenticated_id >-1){
                 let _this = this;
                 axios.get('/shake/' + this.shake.id + '/reaction')
                     .then(function (response) {
@@ -71,7 +71,8 @@
             }
         },
         props: {'shake': Object, 'ingredients' : Array, 'reactionsSumTxt' : String,
-            'displayMode' : Boolean, authenticated_id: Number,
+            'displayMode' : Boolean,
+            authenticated_id: {type:Number, default:-1},//not needed in display mode
         },
         components:{ReactionBtns,ConfirmBtn, 'action-list': actionList},
         methods:{

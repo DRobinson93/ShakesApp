@@ -15,7 +15,7 @@ class ShakeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware("auth")->except(["index","show"]);
+        $this->middleware("auth")->except(["index","show", "reactionSumTxt"]);
     }
     public function index()
     {
@@ -48,6 +48,7 @@ class ShakeController extends Controller
 
     public function show(Shake $shake)
     {
+
         return view('shake', ['shake' => $shake]);
     }
 

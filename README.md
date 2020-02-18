@@ -4,7 +4,7 @@ shakes app
 //-model -controller -r = resource
 php artisan make:model Todo -mc
 
-todo:create shows error on cor resp, 
+todo: 
 	:write more validation
 	:write validation error logic on front end 
 	:setup permissions
@@ -13,4 +13,6 @@ todo:create shows error on cor resp,
     : reactions store return just needs success.. not id
     :write tests for /shake/{shake}/reaction/sumTxt
     :redis
+    :validate can only delete own shake 
+    :allow edit shake ingredients?
 git commit -a -m ""

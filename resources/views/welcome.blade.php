@@ -3,5 +3,5 @@
 @section('title', 'Page Title')
 
 @section('content')
-    <all-shakes :authenticatedId="{{ json_encode(Auth::id()) }}" :shakes="{{ $shakes }}"/>
+    <all-shakes :shakes="{{ $shakes }}"/>
 @endsection
