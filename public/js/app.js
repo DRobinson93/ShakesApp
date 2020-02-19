@@ -2155,7 +2155,8 @@ __webpack_require__.r(__webpack_exports__);
       type: Number,
       "default": -1
     },
-    sort_val: String
+    sort_val: String,
+    limit_val: String
   },
   data: function data() {
     return {
@@ -2168,8 +2169,7 @@ __webpack_require__.r(__webpack_exports__);
         '': 'Rating',
         'newest': 'Newest',
         'oldest': 'Oldest'
-      },
-      limitVal: ''
+      }
     };
   },
   components: {
@@ -2180,7 +2180,7 @@ __webpack_require__.r(__webpack_exports__);
       location.href = location.href + "?sort=" + val;
     },
     handleLimitValChange: function handleLimitValChange(val) {
-      this.limitVal = val;
+      location.href = location.href + "?limit=" + val;
     }
   }
 });
@@ -2200,6 +2200,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../presentational/BtnGrpRadioWVals */ "./resources/js/components/presentational/BtnGrpRadioWVals.vue");
 /* harmony import */ var _presentational_ConfirmBtn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../presentational/ConfirmBtn */ "./resources/js/components/presentational/ConfirmBtn.vue");
 /* harmony import */ var _presentational_IconLabelAndVal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../presentational/IconLabelAndVal */ "./resources/js/components/presentational/IconLabelAndVal.vue");
+//
 //
 //
 //
@@ -38780,7 +38781,7 @@ var render = function() {
                 attrs: {
                   valAndDisplay: _vm.limitOps,
                   default: "",
-                  val: _vm.limitVal
+                  val: _vm.limit_val
                 },
                 on: { valChange: _vm.handleLimitValChange }
               }),
@@ -38910,7 +38911,7 @@ var render = function() {
               ? _c(
                   "button",
                   {
-                    staticClass: "btn btn-lg btn-block btn-outline-primary",
+                    staticClass: "btn btn-lg btn-block btn-outline-dark",
                     attrs: { type: "button" }
                   },
                   [
@@ -38929,7 +38930,11 @@ var render = function() {
                   [
                     _vm.showDelete
                       ? _c("confirm-btn", {
-                          attrs: { icon: "trash", type: "danger" },
+                          attrs: {
+                            id: "shake" + _vm.shake.id + "DeleteBtn",
+                            icon: "trash",
+                            type: "danger"
+                          },
                           on: { confirm: _vm.deleteShake }
                         })
                       : _vm._e()
@@ -38946,6 +38951,7 @@ var render = function() {
                     _c("reaction-btns", {
                       staticClass: "float-right",
                       attrs: {
+                        id: "shake" + _vm.shake.id + "ReactionBtns",
                         valAndDisplay: _vm.reactionComp.valAndDisplay,
                         default: _vm.reactionComp.default.toString(),
                         val: _vm.reactionComp.userReaction

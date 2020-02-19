@@ -16,7 +16,7 @@
         </div>
         <div class="collapse pb-3" id="collapseExample">
             <div class="card card-body">
-                <search-filters :sort_val="{{json_encode($sortVal)}}" :authenticated_id="{{ Auth::check()? Auth::id() : '-1' }}"/>
+                <search-filters :limit_val="{{json_encode($limitVal)}}" :sort_val="{{json_encode($sortVal)}}" :authenticated_id="{{ Auth::check()? Auth::id() : '-1' }}"/>
             </div>
         </div>
     </div>

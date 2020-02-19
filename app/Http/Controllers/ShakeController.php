@@ -19,13 +19,26 @@ class ShakeController extends Controller
         'oldest' => ['col' => 'created_at'],
         'newest' => ['col' => 'created_at', 'desc' =>1]
     ];
+    const QRY_STR_AND_LIMITS_ALLOWED = ['meOnly', 'notMe'];
     public function __construct()
     {
         $this->middleware("auth")->except(["index","show", "reactionSumTxt"]);
+        $this->authorizeResource(Shake::class);
     }
     public function index(Request $request)
     {
-        $shakes = Shake::with(['ingredients', 'reactions', 'user'])->get();
+        $limit = $request->input('limit');
+        if($limit && in_array($limit, self::QRY_STR_AND_LIMITS_ALLOWED)) {
+            if($limit === 'meOnly')
+                $operator = '=';
+            if($limit === 'notMe')
+                $operator = '!=';
+            $shakes = Shake::with(['ingredients', 'reactions', 'user'])->where('user_id', $operator, Auth::user()->id)->get();
+        }
+        else {
+            $limit = '';
+            $shakes = Shake::with(['ingredients', 'reactions', 'user'])->get();
+        }
         foreach($shakes as &$shake){
             $shake['reactions_sum_txt'] = intval($shake->reactions()->sum('val'));
         }
@@ -42,7 +55,7 @@ class ShakeController extends Controller
         }else{
             $shakes = $shakes->sortBy($sort['col'])->values();
         }
-        return view('welcome')->with(['shakes'=> $shakes, 'sortVal' => $sortQryStrVal]);
+        return view('welcome')->with(['shakes'=> $shakes, 'sortVal' => $sortQryStrVal, 'limitVal' =>$limit]);
     }
 
     public function reactionSumTxt(Shake $shake){
@@ -67,7 +80,6 @@ class ShakeController extends Controller
 
     public function show(Shake $shake)
     {
-
         return view('shake', ['shake' => $shake]);
     }
 

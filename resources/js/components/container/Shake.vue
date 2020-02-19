@@ -22,7 +22,7 @@
                     </div>
                 <action-list :bootstrap_css_type="bootstrap_css_type" :data="ingredients"></action-list>
                 <a :href="'/shake/' + shake.id">
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary" v-if="displayMode">
+                    <button type="button" class="btn btn-lg btn-block btn-outline-dark" v-if="displayMode">
                         View <i class="fa fa-eye"></i>
                     </button>
                 </a>

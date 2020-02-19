@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class ShakeReactionControllerTest extends TestCase
+class ShakeReactionFeatTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
     protected static $user, $shake;

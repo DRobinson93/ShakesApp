@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Shake
+ * @package App
+ * @property integer user_id
+ * @property User user
+ */
 class Shake extends Model
 {
     /**
