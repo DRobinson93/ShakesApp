@@ -20,12 +20,16 @@
             btns: {
                 type: Array,
                 default: function(){return []}
+            },
+            bootstrap_css_type: {
+                type: String,
+                default: 'info'
             }
         },
         methods: {
             getLiClass: function(index){
                 //every other give color
-                return 'list-group-item ' + (index%2===1?'list-group-item-info':'');
+                return 'list-group-item ' + (index%2===1?'list-group-item-'+this.bootstrap_css_type:'');
             },
             handleDel: function(id){
                 if(this.canDelete()){

@@ -34,6 +34,7 @@ import 'alertifyjs/build/alertify.min.js'
 import 'alertifyjs/build/css/alertify.min.css'
 import 'alertifyjs/build/css/themes/default.min.css'
 import Alertifyjs from 'vue2-alertifyjs'
+import Popover  from 'vue-js-popover'
 
 const opts = {
   notifier:{
@@ -44,6 +45,7 @@ const opts = {
 };
 
 Vue.use(Alertifyjs,opts)
+Vue.use(Popover)
 
 const app = new Vue({
     el: '#app',

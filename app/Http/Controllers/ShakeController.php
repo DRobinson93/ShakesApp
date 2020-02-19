@@ -15,7 +15,7 @@ class ShakeController extends Controller
 {
     const DEFAULT_SORT = ['col'=> 'reactions_sum_txt', 'desc' =>1];
     const QRY_STR_AND_COL_INFO = [
-        'rating' => ['col' => 'reactions_sum_txt', 'desc' =>1], 
+        'rating' => ['col' => 'reactions_sum_txt', 'desc' =>1],
         'oldest' => ['col' => 'created_at'],
         'newest' => ['col' => 'created_at', 'desc' =>1]
     ];
@@ -25,7 +25,7 @@ class ShakeController extends Controller
     }
     public function index(Request $request)
     {
-        $shakes = Shake::with(['ingredients', 'reactions'])->get();
+        $shakes = Shake::with(['ingredients', 'reactions', 'user'])->get();
         foreach($shakes as &$shake){
             $shake['reactions_sum_txt'] = intval($shake->reactions()->sum('val'));
         }

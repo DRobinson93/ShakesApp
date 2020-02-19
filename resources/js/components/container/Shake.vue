@@ -1,29 +1,40 @@
 <template>
-    <div class="card box-shadow">
-        <div class="card-header">
-            {{shake.title}}
-            <span class="badge badge-secondary float-right">{{rankingTxt}}</span>
-        </div>
+    <div>
+        <popover :name="shake.id">
+        Created at: {{shake.created_at}} <br>
+        Created By: {{created_by}}
+        </popover>
+        <div class="card box-shadow">
+            <div class="card-header">
+                {{shake.title}}
+                <span class="badge badge-secondary float-right">{{rankingTxt}}</span>
+                <span class="float-right mr-2">
+                      <button :class="'btn btn-sm btn-outline-'+bootstrap_css_type" v-popover.left="{ name: shake.id }">
+                          <i class="fa fa-info"/>
+                      </button>
+                </span>
+            </div>
 
-        <div class="card-body">
-            <action-list :data="ingredients"></action-list>
-            <a :href="'/shake/' + shake.id">
-                <button type="button" class="btn btn-lg btn-block btn-primary" v-if="displayMode">
-                    View <i class="fa fa-eye"></i>
-                </button>
-            </a>
-            <div class="row mt-2" v-if="!displayMode && authenticated_id > -1">
-                <div class="col-3">
-                    <confirm-btn icon="trash" type="danger" v-on:confirm="deleteShake" v-if="showDelete" />
-                </div>
-                <div class="col-6"></div>
-                <div class="col-3">
-                    <reaction-btns
-                                    class="float-right"
-                                    :valAndDisplay="reactionComp.valAndDisplay"
-                                   :default="reactionComp.default.toString()"
-                                   :val="reactionComp.userReaction"
-                                   v-on:valChange="handleReactionChange"/>
+            <div class="card-body">
+                <action-list :bootstrap_css_type="bootstrap_css_type" :data="ingredients"></action-list>
+                <a :href="'/shake/' + shake.id">
+                    <button type="button" class="btn btn-lg btn-block btn-outline-primary" v-if="displayMode">
+                        View <i class="fa fa-eye"></i>
+                    </button>
+                </a>
+                <div class="row mt-2" v-if="!displayMode && authenticated_id > -1">
+                    <div class="col-3">
+                        <confirm-btn icon="trash" type="danger" v-on:confirm="deleteShake" v-if="showDelete" />
+                    </div>
+                    <div class="col-6"></div>
+                    <div class="col-3">
+                        <reaction-btns
+                                        class="float-right"
+                                        :valAndDisplay="reactionComp.valAndDisplay"
+                                       :default="reactionComp.default.toString()"
+                                       :val="reactionComp.userReaction"
+                                       v-on:valChange="handleReactionChange"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,10 +83,12 @@
                     });
             }
         },
-        props: {'shake': Object, 'ingredients' : Array, 
+        props: {'shake': Object, 'ingredients' : Array,
             'reactions_sum_txt' : {type:Number|null, default:null},
             'displayMode' : Boolean,
             authenticated_id: {type:Number, default:-1},//not needed in display mode
+            created_by:String,
+            bootstrap_css_type:{type:String, default : 'info'}
         },
         components:{ReactionBtns,ConfirmBtn, 'action-list': actionList},
         methods:{
