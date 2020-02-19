@@ -13,17 +13,36 @@ use Illuminate\Support\Facades\View;
 
 class ShakeController extends Controller
 {
+    const DEFAULT_SORT = ['col'=> 'reactions_sum_txt', 'desc' =>1];
+    const QRY_STR_AND_COL_INFO = [
+        'rating' => ['col' => 'reactions_sum_txt', 'desc' =>1], 
+        'oldest' => ['col' => 'created_at'],
+        'newest' => ['col' => 'created_at', 'desc' =>1]
+    ];
     public function __construct()
     {
         $this->middleware("auth")->except(["index","show", "reactionSumTxt"]);
     }
-    public function index()
+    public function index(Request $request)
     {
         $shakes = Shake::with(['ingredients', 'reactions'])->get();
         foreach($shakes as &$shake){
-            $shake['reactionSumTxt'] = $shake->reactions()->sum('val');
+            $shake['reactions_sum_txt'] = intval($shake->reactions()->sum('val'));
         }
-        return View::make('welcome')->with('shakes', $shakes);
+        $sort = self::DEFAULT_SORT;
+        $sortQryStrVal = $request->input('sort');
+        if($sortQryStrVal){
+            if(!empty(self::QRY_STR_AND_COL_INFO[$sortQryStrVal])){
+                $sort = self::QRY_STR_AND_COL_INFO[$sortQryStrVal];
+            }
+
+        }
+        if(!empty($sort['desc'])){
+            $shakes = $shakes->sortByDesc($sort['col'])->values();
+        }else{
+            $shakes = $shakes->sortBy($sort['col'])->values();
+        }
+        return view('welcome')->with(['shakes'=> $shakes, 'sortVal' => $sortQryStrVal]);
     }
 
     public function reactionSumTxt(Shake $shake){

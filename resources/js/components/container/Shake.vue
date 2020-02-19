@@ -52,8 +52,8 @@
             //if user does not pass in the sum ranking txt then get it
             //this is so on the main page where 1-> many show, this will not be loaded via ajax,
             //on a single shake page this will be loaded via ajax and then altered inside of this component
-            if(this.reactionsSumTxt){
-                this.rankingTxt = this.reactionsSumTxt;
+            if(this.reactions_sum_txt !== null){
+                this.rankingTxt = ''+this.reactions_sum_txt;
             }
             else {
                 //populate text top right if not passed in
@@ -72,7 +72,8 @@
                     });
             }
         },
-        props: {'shake': Object, 'ingredients' : Array, 'reactionsSumTxt' : String,
+        props: {'shake': Object, 'ingredients' : Array, 
+            'reactions_sum_txt' : {type:Number|null, default:null},
             'displayMode' : Boolean,
             authenticated_id: {type:Number, default:-1},//not needed in display mode
         },

@@ -2146,13 +2146,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     authenticated_id: {
       type: Number,
       "default": -1
-    }
+    },
+    sort_val: String
   },
   data: function data() {
     return {
@@ -2165,14 +2168,20 @@ __webpack_require__.r(__webpack_exports__);
         '': 'Rating',
         'newest': 'Newest',
         'oldest': 'Oldest'
-      }
+      },
+      limitVal: ''
     };
   },
   components: {
     radioGrp: _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
-    handleUserChange: function handleUserChange() {}
+    handleSortValChange: function handleSortValChange(val) {
+      location.href = location.href + "?sort=" + val;
+    },
+    handleLimitValChange: function handleLimitValChange(val) {
+      this.limitVal = val;
+    }
   }
 });
 
@@ -2243,8 +2252,8 @@ __webpack_require__.r(__webpack_exports__);
     //if user does not pass in the sum ranking txt then get it
     //this is so on the main page where 1-> many show, this will not be loaded via ajax,
     //on a single shake page this will be loaded via ajax and then altered inside of this component
-    if (this.reactionsSumTxt) {
-      this.rankingTxt = this.reactionsSumTxt;
+    if (this.reactions_sum_txt !== null) {
+      this.rankingTxt = '' + this.reactions_sum_txt;
     } else {
       //populate text top right if not passed in
       this.populateReactionSumTxt();
@@ -2264,7 +2273,10 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     'shake': Object,
     'ingredients': Array,
-    'reactionsSumTxt': String,
+    'reactions_sum_txt': {
+      type: Number | null,
+      "default": null
+    },
     'displayMode': Boolean,
     authenticated_id: {
       type: Number,
@@ -38685,7 +38697,12 @@ var render = function() {
             [
               _c("radioGrp", {
                 staticClass: "btn-block",
-                attrs: { valAndDisplay: _vm.limitOps, default: "", val: "" }
+                attrs: {
+                  valAndDisplay: _vm.limitOps,
+                  default: "",
+                  val: _vm.limitVal
+                },
+                on: { valChange: _vm.handleLimitValChange }
               }),
               _vm._v(" "),
               _c("hr")
@@ -38696,7 +38713,8 @@ var render = function() {
       _vm._v(" "),
       _c("radioGrp", {
         staticClass: "btn-block",
-        attrs: { valAndDisplay: _vm.sortOps, default: "", val: "" }
+        attrs: { valAndDisplay: _vm.sortOps, default: "", val: _vm.sort_val },
+        on: { valChange: _vm.handleSortValChange }
       })
     ],
     1
@@ -38869,18 +38887,15 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c(
       "div",
-      { staticClass: "card-columns" },
+      { staticClass: "row" },
       _vm._l(_vm.shakes, function(shake) {
         return _c("shake", {
           key: shake.id,
+          staticClass: "col-sm-4 d-flex mb-3",
           attrs: {
             ingredients: shake.ingredients,
             shake: shake,
-            reactionsSumTxt:
-              shake.reactions_sum !== undefined &&
-              shake.reactions_sum[0] !== undefined
-                ? shake.reactions_sum[0]["str"]
-                : "",
+            reactions_sum_txt: shake.reactions_sum_txt,
             displayMode: true
           }
         })
