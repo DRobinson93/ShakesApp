@@ -41,4 +41,12 @@ class ShakeReactionTest extends TestCase
         $this->assertInstanceOf(Shake::class,$reaction->shake);
         $this->assertEquals(1, $reaction->shake->count());
     }
+
+    public function testHasAnUser()
+    {
+        $reaction = factory(ShakeReaction::class)->create();
+
+        $this->assertInstanceOf(User::class,$reaction->user);
+        $this->assertEquals(1, $reaction->shake->count());
+    }
 }

@@ -1,4 +1,10 @@
-shakes app
+shakes app using laravel and vue js
+-unit tested
+-users can log in, create/rate/delete shakes
+-eloquent used, relationships used for models
+-migrations used for database 
+-factories and seeding used
+-bootstrap 4 used for css, also custom scss used
 
 
 //-model -controller -r = resource
