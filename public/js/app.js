@@ -2199,6 +2199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../presentational/ActionList */ "./resources/js/components/presentational/ActionList.vue");
 /* harmony import */ var _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../presentational/BtnGrpRadioWVals */ "./resources/js/components/presentational/BtnGrpRadioWVals.vue");
 /* harmony import */ var _presentational_ConfirmBtn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../presentational/ConfirmBtn */ "./resources/js/components/presentational/ConfirmBtn.vue");
+/* harmony import */ var _presentational_IconLabelAndVal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../presentational/IconLabelAndVal */ "./resources/js/components/presentational/IconLabelAndVal.vue");
 //
 //
 //
@@ -2242,6 +2243,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -2256,7 +2262,8 @@ __webpack_require__.r(__webpack_exports__);
         "default": 0,
         userReaction: ''
       },
-      rankingTxt: ''
+      rankingTxt: '',
+      showInfo: false
     };
   },
   mounted: function mounted() {
@@ -2303,7 +2310,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ReactionBtns: _presentational_BtnGrpRadioWVals__WEBPACK_IMPORTED_MODULE_1__["default"],
     ConfirmBtn: _presentational_ConfirmBtn__WEBPACK_IMPORTED_MODULE_2__["default"],
-    'action-list': _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__["default"]
+    actionList: _presentational_ActionList__WEBPACK_IMPORTED_MODULE_0__["default"],
+    info: _presentational_IconLabelAndVal__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
     populateReactionSumTxt: function populateReactionSumTxt() {
@@ -2563,6 +2571,31 @@ var timeout;
       this.btnClass = classStart + defaultClassEnd;
       this.clicked = false;
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    icon: String,
+    val: String,
+    label: String
   }
 });
 
@@ -38789,112 +38822,146 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("popover", { attrs: { name: _vm.shake.id } }, [
-        _vm._v("\n    Created at: " + _vm._s(_vm.shake.created_at) + " "),
-        _c("br"),
-        _vm._v("\n    Created By: " + _vm._s(_vm.created_by) + "\n    ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card box-shadow" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v("\n            " + _vm._s(_vm.shake.title) + "\n            "),
-          _c("span", { staticClass: "badge badge-secondary float-right" }, [
-            _vm._v(_vm._s(_vm.rankingTxt))
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "float-right mr-2" }, [
-            _c(
-              "button",
-              {
-                directives: [
-                  {
-                    name: "popover",
-                    rawName: "v-popover.left",
-                    value: { name: _vm.shake.id },
-                    expression: "{ name: shake.id }",
-                    modifiers: { left: true }
-                  }
-                ],
-                class: "btn btn-sm btn-outline-" + _vm.bootstrap_css_type
-              },
-              [_c("i", { staticClass: "fa fa-info" })]
-            )
-          ])
+  return _c("div", [
+    _c("div", { staticClass: "card box-shadow" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v("\n            " + _vm._s(_vm.shake.title) + "\n            "),
+        _c("span", { staticClass: "badge badge-secondary float-right" }, [
+          _vm._v(_vm._s(_vm.rankingTxt))
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "card-body" },
-          [
-            _c("action-list", {
-              attrs: {
-                bootstrap_css_type: _vm.bootstrap_css_type,
-                data: _vm.ingredients
+        _c("span", { staticClass: "float-right mr-2" }, [
+          _c(
+            "button",
+            {
+              class: "btn btn-sm btn-outline-" + _vm.bootstrap_css_type,
+              on: {
+                click: function($event) {
+                  _vm.showInfo = !_vm.showInfo
+                }
               }
-            }),
-            _vm._v(" "),
-            _c("a", { attrs: { href: "/shake/" + _vm.shake.id } }, [
-              _vm.displayMode
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-lg btn-block btn-outline-primary",
-                      attrs: { type: "button" }
-                    },
-                    [
-                      _vm._v("\n                    View "),
-                      _c("i", { staticClass: "fa fa-eye" })
-                    ]
-                  )
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            !_vm.displayMode && _vm.authenticated_id > -1
-              ? _c("div", { staticClass: "row mt-2" }, [
+            },
+            [_c("i", { staticClass: "fa fa-info" })]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "card-body" },
+        [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.showInfo,
+                  expression: "showInfo"
+                }
+              ],
+              staticClass: "card"
+            },
+            [
+              _c("div", { staticClass: "card-body" }, [
+                _c("ul", { staticClass: "list-unstyled" }, [
                   _c(
-                    "div",
-                    { staticClass: "col-3" },
+                    "li",
                     [
-                      _vm.showDelete
-                        ? _c("confirm-btn", {
-                            attrs: { icon: "trash", type: "danger" },
-                            on: { confirm: _vm.deleteShake }
-                          })
-                        : _vm._e()
+                      _c("info", {
+                        attrs: {
+                          icon: "calendar",
+                          label: "Created at",
+                          val: _vm.shake.created_at
+                        }
+                      })
                     ],
                     1
                   ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-6" }),
-                  _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "col-3" },
+                    "li",
                     [
-                      _c("reaction-btns", {
-                        staticClass: "float-right",
+                      _c("info", {
                         attrs: {
-                          valAndDisplay: _vm.reactionComp.valAndDisplay,
-                          default: _vm.reactionComp.default.toString(),
-                          val: _vm.reactionComp.userReaction
-                        },
-                        on: { valChange: _vm.handleReactionChange }
+                          icon: "user",
+                          label: "Created by",
+                          val: _vm.created_by
+                        }
                       })
                     ],
                     1
                   )
                 ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("action-list", {
+            attrs: {
+              bootstrap_css_type: _vm.bootstrap_css_type,
+              data: _vm.ingredients
+            }
+          }),
+          _vm._v(" "),
+          _c("a", { attrs: { href: "/shake/" + _vm.shake.id } }, [
+            _vm.displayMode
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-lg btn-block btn-outline-primary",
+                    attrs: { type: "button" }
+                  },
+                  [
+                    _vm._v("\n                    View "),
+                    _c("i", { staticClass: "fa fa-eye" })
+                  ]
+                )
               : _vm._e()
-          ],
-          1
-        )
-      ])
-    ],
-    1
-  )
+          ]),
+          _vm._v(" "),
+          !_vm.displayMode && _vm.authenticated_id > -1
+            ? _c("div", { staticClass: "row mt-2" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-3" },
+                  [
+                    _vm.showDelete
+                      ? _c("confirm-btn", {
+                          attrs: { icon: "trash", type: "danger" },
+                          on: { confirm: _vm.deleteShake }
+                        })
+                      : _vm._e()
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6" }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-3" },
+                  [
+                    _c("reaction-btns", {
+                      staticClass: "float-right",
+                      attrs: {
+                        valAndDisplay: _vm.reactionComp.valAndDisplay,
+                        default: _vm.reactionComp.default.toString(),
+                        val: _vm.reactionComp.userReaction
+                      },
+                      on: { valChange: _vm.handleReactionChange }
+                    })
+                  ],
+                  1
+                )
+              ])
+            : _vm._e()
+        ],
+        1
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39090,6 +39157,37 @@ var render = function() {
     },
     [_c("i", { class: "fa fa-" + _vm.icon })]
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=template&id=338f35c6&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=template&id=338f35c6& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _c("i", { class: "fa fa-" + _vm.icon }),
+    _vm._v(" "),
+    _c("span", { staticClass: "font-weight-bold" }, [
+      _vm._v(_vm._s(_vm.label) + ":")
+    ]),
+    _vm._v(" " + _vm._s(_vm.val) + "\n")
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -55518,6 +55616,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmBtn_vue_vue_type_template_id_1cb7e86b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfirmBtn_vue_vue_type_template_id_1cb7e86b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/presentational/IconLabelAndVal.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/presentational/IconLabelAndVal.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _IconLabelAndVal_vue_vue_type_template_id_338f35c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IconLabelAndVal.vue?vue&type=template&id=338f35c6& */ "./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=template&id=338f35c6&");
+/* harmony import */ var _IconLabelAndVal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconLabelAndVal.vue?vue&type=script&lang=js& */ "./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _IconLabelAndVal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _IconLabelAndVal_vue_vue_type_template_id_338f35c6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _IconLabelAndVal_vue_vue_type_template_id_338f35c6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/presentational/IconLabelAndVal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IconLabelAndVal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./IconLabelAndVal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IconLabelAndVal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=template&id=338f35c6&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=template&id=338f35c6& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IconLabelAndVal_vue_vue_type_template_id_338f35c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./IconLabelAndVal.vue?vue&type=template&id=338f35c6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/presentational/IconLabelAndVal.vue?vue&type=template&id=338f35c6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IconLabelAndVal_vue_vue_type_template_id_338f35c6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IconLabelAndVal_vue_vue_type_template_id_338f35c6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

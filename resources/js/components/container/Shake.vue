@@ -1,21 +1,25 @@
 <template>
     <div>
-        <popover :name="shake.id">
-        Created at: {{shake.created_at}} <br>
-        Created By: {{created_by}}
-        </popover>
         <div class="card box-shadow">
             <div class="card-header">
                 {{shake.title}}
                 <span class="badge badge-secondary float-right">{{rankingTxt}}</span>
                 <span class="float-right mr-2">
-                      <button :class="'btn btn-sm btn-outline-'+bootstrap_css_type" v-popover.left="{ name: shake.id }">
+                      <button :class="'btn btn-sm btn-outline-'+bootstrap_css_type" v-on:click="showInfo = !showInfo">
                           <i class="fa fa-info"/>
                       </button>
                 </span>
             </div>
 
             <div class="card-body">
+                    <div v-show="showInfo" class="card">
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li><info icon="calendar" label="Created at" :val="shake.created_at" /></li>
+                                <li><info icon="user" label="Created by" :val="created_by" /></li>
+                            </ul>
+                        </div>
+                    </div>
                 <action-list :bootstrap_css_type="bootstrap_css_type" :data="ingredients"></action-list>
                 <a :href="'/shake/' + shake.id">
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary" v-if="displayMode">
@@ -45,6 +49,7 @@
     import actionList from '../presentational/ActionList'
     import ReactionBtns from "../presentational/BtnGrpRadioWVals";
     import ConfirmBtn from "../presentational/ConfirmBtn";
+    import info from "../presentational/IconLabelAndVal";
     export default {
         data: function() {
             return {
@@ -56,7 +61,8 @@
                     default:0,
                     userReaction:''
                 },
-                rankingTxt:''
+                rankingTxt:'',
+                showInfo:false
             };
         },
         mounted(){
@@ -90,7 +96,7 @@
             created_by:String,
             bootstrap_css_type:{type:String, default : 'info'}
         },
-        components:{ReactionBtns,ConfirmBtn, 'action-list': actionList},
+        components:{ReactionBtns,ConfirmBtn, actionList, info},
         methods:{
             populateReactionSumTxt: function(){
                 let _this = this;
