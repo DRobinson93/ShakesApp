@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <shake class="col-4 mb-3" v-for="(shake, index) in shakes" :ingredients="shake.ingredients"
+            <shake class="col-6 mb-3" v-for="(shake, index) in shakes" :ingredients="shake.ingredients"
                    :created_by="shake.user.name" :shake="shake" :key="shake.id"
                     :reactions_sum_txt="shake.reactions_sum_txt" :displayMode="true"
                     :bootstrap_css_type="getColor(index)"/>

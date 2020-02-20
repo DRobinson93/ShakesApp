@@ -28,7 +28,7 @@ class ShakeController extends Controller
     public function index(Request $request)
     {
         $limit = $request->input('limit');
-        if($limit && in_array($limit, self::QRY_STR_AND_LIMITS_ALLOWED)) {
+        if($limit && in_array($limit, self::QRY_STR_AND_LIMITS_ALLOWED) && Auth::check()) {
             if($limit === 'meOnly')
                 $operator = '=';
             if($limit === 'notMe')

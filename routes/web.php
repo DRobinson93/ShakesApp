@@ -18,7 +18,6 @@
 Auth::routes();
 
 Route::get('/', 'ShakeController@index')->name('home');
-Route::get('/home', 'ShakeController@index');
 Route::get('/shake/{shake}/reaction/sumTxt', 'ShakeController@reactionSumTxt');
 Route::get('/shake/{shake}/reaction', 'ShakeController@getUserReaction');
 

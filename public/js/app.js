@@ -2247,7 +2247,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -38930,11 +38929,7 @@ var render = function() {
                   [
                     _vm.showDelete
                       ? _c("confirm-btn", {
-                          attrs: {
-                            id: "shake" + _vm.shake.id + "DeleteBtn",
-                            icon: "trash",
-                            type: "danger"
-                          },
+                          attrs: { icon: "trash", type: "danger" },
                           on: { confirm: _vm.deleteShake }
                         })
                       : _vm._e()
@@ -38951,7 +38946,6 @@ var render = function() {
                     _c("reaction-btns", {
                       staticClass: "float-right",
                       attrs: {
-                        id: "shake" + _vm.shake.id + "ReactionBtns",
                         valAndDisplay: _vm.reactionComp.valAndDisplay,
                         default: _vm.reactionComp.default.toString(),
                         val: _vm.reactionComp.userReaction
@@ -39047,7 +39041,7 @@ var render = function() {
       _vm._l(_vm.shakes, function(shake, index) {
         return _c("shake", {
           key: shake.id,
-          staticClass: "col-4 mb-3",
+          staticClass: "col-6 mb-3",
           attrs: {
             ingredients: shake.ingredients,
             created_by: shake.user.name,

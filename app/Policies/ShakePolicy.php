@@ -42,7 +42,7 @@ class ShakePolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->can('create shake');
     }
 
     /**
@@ -66,7 +66,9 @@ class ShakePolicy
      */
     public function delete(User $user, Shake $shake)
     {
-        return $user->id === $shake->user->id;
+        if($user->id === $shake->user->id)
+            return $user->can('delete others shake');
+        return $user->can('delete shake');
     }
 
     /**

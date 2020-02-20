@@ -16,7 +16,8 @@ class ShakeIngredientTest extends TestCase
     public function testCanCreate()
     {
         //create user using factory
-        $shake = factory(ShakeIngredient::class)->make();//fn create would insert
+        $shake = factory(Shake::class)->create();
+        $shake = factory(ShakeIngredient::class)->make(['shake_id' => $shake->id]);//fn create would insert
         $this->assertTrue($shake->save());
         $this->assertDatabaseHas($this::TABLE_NAME, ['id' => $shake->id]);
     }
@@ -31,7 +32,8 @@ class ShakeIngredientTest extends TestCase
 
     public function testHasAnShake()
     {
-        $shakeIngredient = factory(ShakeIngredient::class)->create();
+        $shake = factory(Shake::class)->create();
+        $shakeIngredient = factory(ShakeIngredient::class)->create(['shake_id' => $shake->id]);
 
         $this->assertInstanceOf(Shake::class,$shakeIngredient->shake);
         $this->assertEquals(1, $shakeIngredient->shake->count());
