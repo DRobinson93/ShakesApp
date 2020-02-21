@@ -18,10 +18,11 @@ class UserSeeder extends Seeder
     	$user = App\User::where(['email' => 'test@gmail.com'])->first();
         //create test user
         if($user === null){
-	        factory(App\User::class)->create([
+	        $user = factory(App\User::class)->create([
 	            'email' => 'test@gmail.com',
 	            'password' => Hash::make('dev_pass')
 	        ]);
+	        $user->assignRole('super-admin');
 	    }
     }
 }

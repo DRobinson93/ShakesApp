@@ -5,8 +5,11 @@ shakes app using laravel and vue js
 -migrations used for database 
 -factories and seeding used
 -bootstrap 4 used for css, also custom scss used
+-permissions set up using laravel permission v3: https://docs.spatie.be/laravel-permission/v3/introduction/
 
 
+Commands:
+php artisan migrate:fresh --seed
 //-model -controller -r = resource
 php artisan make:model Todo -mc
 

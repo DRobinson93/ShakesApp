@@ -20,7 +20,8 @@ class ShakeFeatTest extends TestCase
     public function setUp() :void
     {
         parent::setUp();
-        self::$user = factory(User::class)->create();
+        $this->seed(\RolesAndPermissionsSeeder::class);
+        self::$user = factory(User::class)->create()->assignRole('user');
         self::$user2 = factory(User::class)->create();
     }
 
